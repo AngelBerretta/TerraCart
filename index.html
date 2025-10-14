@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraCart - Supermercado Ecológico</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>Terra<span>Cart</span></span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="nav-link active">Inicio</a>
+                    <a href="#products" class="nav-link">Productos</a>
+                    <a href="#about" class="nav-link">Sobre Nosotros</a>
+                    <div class="nav-user" id="navUser">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">Mi Cuenta</span>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#" id="loginBtn">Iniciar Sesión</a>
+                            <a href="#" id="registerBtn">Registrarse</a>
+                            <a href="#" id="purchaseHistoryBtn" style="display:none">Historial de Compras</a>
+                            <a href="#" id="logoutBtn" style="display:none">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                    <div class="favorites-icon">
+                        <i class="fas fa-heart"></i>
+                        <div class="fav-count" id="favCount">0</div>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="cart-count" id="cartCount">0</div>
+                    </div>
+                    <button class="dark-mode-toggle" id="darkModeToggle" title="Modo Oscuro">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Menú móvil -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>Terra<span>Cart</span></span>
+            </div>
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#home" class="mobile-nav-link active">Inicio</a>
+            <a href="#products" class="mobile-nav-link">Productos</a>
+            <a href="#about" class="mobile-nav-link">Sobre Nosotros</a>
+            <a href="#" class="mobile-nav-link" id="mobileLoginBtn">Iniciar Sesión</a>
+            <a href="#" class="mobile-nav-link" id="mobileRegisterBtn">Registrarse</a>
+            <a href="#" class="mobile-nav-link" id="mobileHistoryBtn" style="display:none">Historial de Compras</a>
+            <a href="#" class="mobile-nav-link" id="mobileLogoutBtn" style="display:none">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Compra Sostenible, <span>Impacto Positivo</span></h1>
+                <p>En TerraCart, cada compra contribuye a un mundo más verde. Descubre cómo tus elecciones diarias pueden marcar la diferencia.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalWaterSaved">0</span>
+                        <span class="stat-label">Litros de agua ahorrados</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalPlasticSaved">0</span>
+                        <span class="stat-label">Productos sin plástico</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalLocalSupported">0</span>
+                        <span class="stat-label">Productores locales</span>
+                    </div>
+                </div>
+                <a href="#products" class="btn btn-primary">
+                    <i class="fas fa-seedling"></i>
+                    Explorar Productos
+                </a>
+            </div>
+            <div class="hero-image">
+                 <img src="img/hero-productos.jpg" alt="Productos ecológicos">
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros Productos Ecológicos</h2>
+                <p>Selecciona entre nuestra variedad de productos sostenibles y de comercio justo</p>
+            </div>
+            <div class="products-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar productos...">
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-th-large"></i>
+                        Todos
+                    </button>
+                    <button class="filter-btn" data-filter="plasticFree">
+                        <i class="fas fa-ban"></i>
+                        Sin Plástico
+                    </button>
+                    <button class="filter-btn" data-filter="local">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Productos Locales
+                    </button>
+                    <button class="filter-btn" data-filter="organic">
+                        <i class="fas fa-leaf"></i>
+                        Orgánicos
+                    </button>
+                </div>
+                <div class="sort-options">
+                    <select id="sortSelect">
+                        <option value="name">Ordenar por: Nombre</option>
+                        <option value="price-low">Precio: Menor a Mayor</option>
+                        <option value="price-high">Precio: Mayor a Menor</option>
+                        <option value="impact">Mayor Impacto</option>
+                    </select>
+                </div>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </section>
+
+    <!-- Impacto Section -->
+    <section class="impact-section">
+        <div class="container">
+            <div class="impact-content">
+                <h2>Tu Compra Genera Impacto</h2>
+                <p>Cada producto que eliges en TerraCart contribuye directamente a:</p>
+                <div class="impact-features">
+                    <div class="impact-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>Ahorro de Agua</h3>
+                        <p>Productos que requieren menos recursos hídricos en su producción</p>
+                    </div>
+                    <div class="impact-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h3>Reducción de Plástico</h3>
+                        <p>Alternativas sostenibles que eliminan el uso de plásticos de un solo uso</p>
+                    </div>
+                    <div class="impact-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Comercio Justo</h3>
+                        <p>Apoyo directo a productores locales y comunidades sostenibles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrito Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>
+                <i class="fas fa-shopping-cart"></i>
+                Tu Carrito
+            </h2>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-content">
+            <div class="cart-items" id="cartItems"></div>
+            <div class="impact-panel">
+                <h3><i class="fas fa-chart-line"></i> Tu Impacto Positivo</h3>
+                <div class="impact-metrics">
+                    <div class="impact-metric">
+                        <div class="metric-icon"><i class="fas fa-tint"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="waterSaved">0</span>
+                            <span class="metric-label">Litros de agua ahorrados</span>
+                        </div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="metric-icon"><i class="fas fa-ban"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="plasticFreeCount">0</span>
+                            <span class="metric-label">Productos sin plástico</span>
+                        </div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="metric-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="localProducersCount">0</span>
+                            <span class="metric-label">Productores locales apoyados</span>
+                        </div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="metric-icon"><i class="fas fa-tree"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="co2Saved">0</span>
+                            <span class="metric-label">kg CO₂ ahorrados</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Envío:</span>
+                        <span id="shippingCost">$0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">
+                    <i class="fas fa-lock"></i>
+                    Finalizar Compra
+                </button>
+                <div class="eco-tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <p>Tu compra equivale a plantar <strong id="treesEquivalent">0</strong> árboles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favoritos Sidebar -->
+    <div class="favorites-sidebar">
+        <div class="fav-header">
+            <h2>
+                <i class="fas fa-heart"></i>
+                Tus Favoritos
+            </h2>
+            <button class="close-fav" id="closeFav">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="fav-content" id="favContent"></div>
+    </div>
+
+    <!-- Modal de Vista Previa de Producto -->
+    <div class="product-preview-modal" id="productPreviewModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closePreviewModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="previewModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div class="auth-modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeLoginModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2>Iniciar Sesión</h2>
+                <p>Accede a tu cuenta TerraCart</p>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Correo Electrónico</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+                <div class="auth-footer">
+                    <p>¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div class="auth-modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeRegisterModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2>Crear Cuenta</h2>
+                <p>Únete a la comunidad TerraCart</p>
+            </div>
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nombre Completo</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Correo Electrónico</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar Contraseña</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Crear Cuenta</button>
+                <div class="auth-footer">
+                    <p>¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia sesión aquí</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Historial de Compras -->
+    <div class="history-modal" id="historyModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeHistoryModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2>Historial de Compras</h2>
+                <p>Tus pedidos anteriores en TerraCart</p>
+            </div>
+            <div class="modal-body">
+                <div class="history-list" id="historyList">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de Ofertas -->
+    <div class="offer-popup" id="offerPopup">
+        <div class="popup-content">
+            <button class="close-popup" id="closeOfferPopup">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="popup-header">
+                <span class="offer-badge">¡Oferta Especial!</span>
+                <h3>Tiempo Limitado</h3>
+            </div>
+            <div class="popup-body">
+                <div class="offer-product">
+                    <img src="img/shampoo-solido.png" alt="Shampoo Sólido" class="offer-image">
+                    <div class="offer-details">
+                        <h4>Shampoo Sólido Natural</h4>
+                        <p class="offer-description">Ahorra agua y elimina el plástico con nuestro shampoo sólido ecológico</p>
+                        <div class="offer-pricing">
+                            <span class="original-price">$8.00</span>
+                            <span class="offer-price">$6.40</span>
+                            <span class="discount">20% OFF</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-timer">
+                    <p>La oferta termina en:</p>
+                    <div class="timer" id="offerTimer">
+                        <span class="time-unit">
+                            <span class="time-value" id="hours">00</span>
+                            <span class="time-label">Horas</span>
+                        </span>
+                        <span class="time-separator">:</span>
+                        <span class="time-unit">
+                            <span class="time-value" id="minutes">00</span>
+                            <span class="time-label">Minutos</span>
+                        </span>
+                        <span class="time-separator">:</span>
+                        <span class="time-unit">
+                            <span class="time-value" id="seconds">00</span>
+                            <span class="time-label">Segundos</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="btn btn-primary" id="addOfferToCart">Añadir al Carrito</button>
+                <button class="btn btn-secondary" id="closeOffer">Quizás Más Tarde</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"><i class="fas fa-leaf"></i></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
