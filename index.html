@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TerraCart - Supermercado Ecológico</title>
+    <!-- Favicon agregado -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -49,7 +51,7 @@
         </div>
     </header>
 
-    <!-- Menú móvil -->
+    <!-- Menú móvil mejorado -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="logo">
@@ -64,6 +66,14 @@
             <a href="#home" class="mobile-nav-link active">Inicio</a>
             <a href="#products" class="mobile-nav-link">Productos</a>
             <a href="#about" class="mobile-nav-link">Sobre Nosotros</a>
+            <!-- Agregar carrito y favoritos al menú móvil -->
+            <a href="#" class="mobile-nav-link mobile-cart-link">
+                <i class="fas fa-shopping-cart"></i> Carrito (<span id="mobileCartCount">0</span>)
+            </a>
+            <a href="#" class="mobile-nav-link mobile-fav-link">
+                <i class="fas fa-heart"></i> Favoritos (<span id="mobileFavCount">0</span>)
+            </a>
+            <!-- Agregar opciones de cuenta al menú móvil -->
             <a href="#" class="mobile-nav-link" id="mobileLoginBtn">Iniciar Sesión</a>
             <a href="#" class="mobile-nav-link" id="mobileRegisterBtn">Registrarse</a>
             <a href="#" class="mobile-nav-link" id="mobileHistoryBtn" style="display:none">Historial de Compras</a>
@@ -146,6 +156,56 @@
         </div>
     </section>
 
+    <!-- Nueva sección: Sobre Nosotros -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Sobre Nosotros</h2>
+                <p>Conoce más sobre TerraCart y nuestra misión</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Nuestra Misión</h3>
+                    <p>En TerraCart creemos en un futuro más verde y sostenible. Nuestra misión es hacer que las compras ecológicas sean accesibles para todos, ofreciendo productos que respeten el medio ambiente y apoyen a productores locales.</p>
+                    
+                    <h3>Nuestra Historia</h3>
+                    <p>Fundada en 2020, TerraCart nació de la pasión por un consumo más consciente. Comenzamos como un pequeño mercado local y hemos crecido hasta convertirnos en tu supermercado ecológico de confianza.</p>
+                    
+                    <h3>Nuestros Valores</h3>
+                    <ul>
+                        <li><strong>Sostenibilidad:</strong> Cada producto es seleccionado por su bajo impacto ambiental.</li>
+                        <li><strong>Transparencia:</strong> Sabes exactamente el origen e impacto de cada producto.</li>
+                        <li><strong>Comunidad:</strong> Apoyamos a productores locales y comercio justo.</li>
+                        <li><strong>Innovación:</strong> Buscamos constantemente nuevas formas de reducir nuestro impacto.</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="stat-number" id="aboutProducts">50+</div>
+                        <div class="stat-label">Productos Ecológicos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" id="aboutProducers">25+</div>
+                        <div class="stat-label">Productores Locales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="stat-number" id="aboutImpact">10K+</div>
+                        <div class="stat-label">Kg de CO₂ Ahorrados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Impacto Section -->
     <section class="impact-section">
         <div class="container">
@@ -178,6 +238,60 @@
             </div>
         </div>
     </section>
+
+    <!-- Nuevo Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-leaf"></i>
+                        <span>Terra<span>Cart</span></span>
+                    </div>
+                    <p>Tu supermercado ecológico de confianza. Compra sostenible, impacto positivo.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#home">Inicio</a></li>
+                        <li><a href="#products">Productos</a></li>
+                        <li><a href="#about">Sobre Nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Categorías</h3>
+                    <ul>
+                        <li><a href="#">Verduras Orgánicas</a></li>
+                        <li><a href="#">Frutas Locales</a></li>
+                        <li><a href="#">Cuidado Personal</a></li>
+                        <li><a href="#">Productos Sin Plástico</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Ecológica 123, Ciudad Verde</li>
+                        <li><i class="fas fa-phone"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope"></i> info@terracart.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TerraCart. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Carrito Sidebar -->
     <div class="cart-sidebar" id="cartSidebar">
@@ -399,8 +513,12 @@
                     </div>
                 </div>
             </div>
+            <!-- En el pop-up de ofertas -->
             <div class="popup-footer">
-                <button class="btn btn-primary" id="addOfferToCart">Añadir al Carrito</button>
+                <button class="btn btn-primary" id="addOfferToCart">
+                    <i class="fas fa-cart-plus"></i>
+                    Añadir al Carrito con 20% OFF
+                </button>
                 <button class="btn btn-secondary" id="closeOffer">Quizás Más Tarde</button>
             </div>
         </div>

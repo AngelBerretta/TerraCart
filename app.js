@@ -54,7 +54,38 @@ function init() {
     setupEventListeners();
     updateUserUI();
     setupOfferPopup();
+    updateAboutStats();
+    
+    // Inicializar específicamente el menú móvil
+    initMobileMenu();
+    
     showToast('Bienvenido a TerraCart! 🌱', 'success');
+}
+
+// Funciones para mostrar carrito y favoritos en móvil
+function showCartInMobile() {
+    toggleCart();
+    hideMobileMenu();
+}
+
+function showFavoritesInMobile() {
+    toggleFavorites();
+    hideMobileMenu();
+}
+
+// Función para inicializar específicamente el menú móvil
+function initMobileMenu() {
+    setupMobileMenuListeners();
+    updateMobileCounters();
+    
+    // Asegurar que los enlaces de navegación cierren el menú
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    mobileNavLinks.forEach(link => {
+        if (!link.classList.contains('mobile-cart-link') && 
+            !link.classList.contains('mobile-fav-link')) {
+            link.addEventListener('click', hideMobileMenu);
+        }
+    });
 }
 
 // Configurar event listeners
@@ -113,6 +144,8 @@ function setupEventListeners() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
+            const href = this.getAttribute('href');
+            if (!href || href === "#") return;
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 target.scrollIntoView({
@@ -196,7 +229,7 @@ function setupEventListeners() {
     
     if (closeOfferPopup) closeOfferPopup.addEventListener('click', hideOfferPopup);
     if (closeOffer) closeOffer.addEventListener('click', hideOfferPopup);
-    if (addOfferToCart) addOfferToCart.addEventListener('click', addOfferToCart);
+    if (addOfferToCart) addOfferToCart.addEventListener('click', addOfferProductToCart);
     
     if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', showMobileMenu);
     if (closeMobileMenu) closeMobileMenu.addEventListener('click', hideMobileMenu);
@@ -277,6 +310,9 @@ function updateFavoritesUI() {
     
     favCount.textContent = favorites.length;
     
+    // Actualizar contadores móviles
+    updateMobileCounters();
+    
     if (favorites.length === 0) {
         favContent.innerHTML = `
             <div class="empty-cart">
@@ -333,6 +369,9 @@ function updateFavoritesUI() {
             });
         });
     }
+    
+    // Forzar actualización de contadores móviles
+    updateMobileCounters();
 }
 
 // Renderizar productos en el catálogo
@@ -630,15 +669,35 @@ function updateCartUI() {
             cartItems.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><h3>Tu carrito está vacío</h3></div>`;
         } else {
             cart.forEach(item => {
-                const product = products.find(p => p.id === item.id);
+                let product = products.find(p => p.id === item.id);
+                
+                // Si es el producto de oferta, usar precio especial
+                if (item.id === 3 && item.isOffer) {
+                    product = {
+                        ...product,
+                        price: 6.40, // Precio con descuento
+                        name: product.name + ' (Oferta Especial)'
+                    };
+                }
+                
                 if (product) {
                     const cartItem = document.createElement('div');
                     cartItem.className = 'cart-item';
+                    
+                    // Mostrar precio original tachado si es oferta
+                    const priceDisplay = item.isOffer && item.id === 3 
+                        ? `<div class="cart-item-price">
+                             <span style="text-decoration: line-through; color: var(--text-light); margin-right: 8px;">$${8.00.toFixed(2)}</span>
+                             <span style="color: var(--primary-color); font-weight: bold;">$${product.price.toFixed(2)}</span>
+                             <span class="badge" style="background-color: var(--secondary-color); margin-left: 8px;">20% OFF</span>
+                           </div>`
+                        : `<div class="cart-item-price">$${product.price.toFixed(2)}</div>`;
+                    
                     cartItem.innerHTML = `
                         <img src="${product.image}" alt="${product.name}" class="cart-item-image">
                         <div class="cart-item-details">
                             <div class="cart-item-name">${product.name}</div>
-                            <div class="cart-item-price">$${product.price.toFixed(2)}</div>
+                            ${priceDisplay}
                             <div class="cart-item-impact">
                                 <span><i class="fas fa-tint"></i> ${product.impact.waterSaved * item.quantity}L</span>
                                 <span><i class="fas fa-leaf"></i> ${product.impact.co2Saved * item.quantity}kg</span>
@@ -647,6 +706,7 @@ function updateCartUI() {
                                 ${product.impact.isOrganic ? '<span class="badge badge-organic">Orgánico</span>' : ''}
                                 ${product.impact.isLocal ? '<span class="badge badge-local">Local</span>' : ''}
                                 ${product.impact.isPlasticFree ? '<span class="badge badge-plasticfree">Sin Plástico</span>' : ''}
+                                ${item.isOffer && item.id === 3 ? '<span class="badge" style="background-color: var(--secondary-color);">Oferta</span>' : ''}
                             </div>
                             <div class="cart-item-quantity">
                                 <button class="quantity-btn minus" data-id="${product.id}" type="button">
@@ -750,18 +810,30 @@ function updateCartUI() {
     setTimeout(() => {
         cartSidebar.scrollTop = currentScroll;
     }, 0);
+    
+    // Actualizar contadores móviles
+    updateMobileCounters();
 }
 
 // Calcular el impacto ambiental del carrito
 function calculateImpact() {
     return cart.reduce((totals, cartItem) => {
-        const product = products.find(p => p.id === cartItem.id);
+        let product = products.find(p => p.id === cartItem.id);
+        
+        // Si es producto de oferta, usar el producto original para el cálculo de impacto
+        if (cartItem.id === 3 && cartItem.isOffer) {
+            product = products.find(p => p.id === 3);
+        }
+        
         if (product) {
             totals.waterSaved += product.impact.waterSaved * cartItem.quantity;
             totals.plasticFreeCount += product.impact.isPlasticFree ? cartItem.quantity : 0;
             totals.localProducersCount += product.impact.isLocal ? cartItem.quantity : 0;
             totals.co2Saved += product.impact.co2Saved * cartItem.quantity;
-            totals.total += product.price * cartItem.quantity;
+            
+            // Usar precio de oferta si corresponde
+            const price = (cartItem.id === 3 && cartItem.isOffer) ? 6.40 : product.price;
+            totals.total += price * cartItem.quantity;
         }
         return totals;
     }, {
@@ -1356,6 +1428,51 @@ function hideMobileMenu() {
     }
 }
 
+// Agregar event listeners para el menú móvil mejorado - CORREGIDO
+function setupMobileMenuListeners() {
+    const mobileCartLink = document.querySelector('.mobile-cart-link');
+    const mobileFavLink = document.querySelector('.mobile-fav-link');
+    
+    if (mobileCartLink) {
+        // Eliminar cualquier event listener previo para evitar duplicados
+        mobileCartLink.replaceWith(mobileCartLink.cloneNode(true));
+        const newMobileCartLink = document.querySelector('.mobile-cart-link');
+        
+        newMobileCartLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showCartInMobile();
+        });
+    }
+    
+    if (mobileFavLink) {
+        // Eliminar cualquier event listener previo para evitar duplicados
+        mobileFavLink.replaceWith(mobileFavLink.cloneNode(true));
+        const newMobileFavLink = document.querySelector('.mobile-fav-link');
+        
+        newMobileFavLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showFavoritesInMobile();
+        });
+    }
+}
+
+// Función para actualizar contadores en el menú móvil
+function updateMobileCounters() {
+    const mobileCartCount = document.getElementById('mobileCartCount');
+    const mobileFavCount = document.getElementById('mobileFavCount');
+    
+    if (mobileCartCount) {
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        mobileCartCount.textContent = totalItems;
+    }
+    
+    if (mobileFavCount) {
+        mobileFavCount.textContent = favorites.length;
+    }
+}
+
 // Pop-up de ofertas
 function setupOfferPopup() {
     // Mostrar pop-up cada 2 minutos (120000 ms) - para testing usar 30000 (30 segundos)
@@ -1386,11 +1503,31 @@ function hideOfferPopup() {
     }
 }
 
-function addOfferToCart() {
-    // Añadir el producto de oferta (shampoo sólido) al carrito
-    addToCart(3); // ID del shampoo sólido
-    hideOfferPopup();
-    showToast('¡Oferta añadida al carrito!', 'success');
+function addOfferProductToCart() {
+    // Buscar el producto de shampoo sólido en los productos existentes
+    const shampooProduct = products.find(p => p.id === 3); // ID 3 es el shampoo sólido
+    
+    if (shampooProduct) {
+        // Verificar si ya existe en el carrito
+        const existingItem = cart.find(item => item.id === 3);
+        if (existingItem) {
+            existingItem.quantity += 1;
+            existingItem.isOffer = true; // Asegurar que mantenga la oferta
+        } else {
+            cart.push({
+                id: 3,
+                quantity: 1,
+                isOffer: true
+            });
+        }
+        
+        saveCart();
+        updateCartUI();
+        hideOfferPopup();
+        showToast('¡Oferta añadida al carrito con 20% de descuento! 🎉', 'success');
+    } else {
+        showToast('Error al añadir la oferta al carrito', 'error');
+    }
 }
 
 function startOfferTimer() {
@@ -1420,6 +1557,29 @@ function startOfferTimer() {
     }, 1000);
 }
 
+// Función para actualizar estadísticas en la sección "Sobre Nosotros"
+function updateAboutStats() {
+    const aboutProducts = document.getElementById('aboutProducts');
+    const aboutProducers = document.getElementById('aboutProducers');
+    const aboutImpact = document.getElementById('aboutImpact');
+    
+    if (aboutProducts) aboutProducts.textContent = products.length;
+    
+    // Contar productores locales únicos
+    const localProducers = [...new Set(products
+        .filter(p => p.impact.isLocal)
+        .map(p => p.tags.includes('local') ? 'Local' : '')
+    )].filter(Boolean).length;
+    
+    if (aboutProducers) aboutProducers.textContent = localProducers;
+    
+    // Calcular impacto total aproximado
+    const totalCO2 = products.reduce((sum, product) => sum + product.impact.co2Saved, 0);
+    const estimatedImpact = Math.round(totalCO2 * 1000); // Estimación basada en ventas
+    
+    if (aboutImpact) aboutImpact.textContent = estimatedImpact.toLocaleString();
+}
+
 // Inicializar la aplicación cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
     init();
@@ -1427,4 +1587,3 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark-mode');
     }
 });
-
