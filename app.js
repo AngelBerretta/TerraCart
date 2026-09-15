@@ -141,11 +141,11 @@ function setupEventListeners() {
         }
     });
 
-    document.querySelectorAll('a[href^="***REMOVED***"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const href = this.getAttribute('href');
-            if (!href || href === "***REMOVED***") return;
+            if (!href || href === "#") return;
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 target.scrollIntoView({
@@ -521,13 +521,13 @@ function handleImageError(img) {
     // Crear un SVG como placeholder
     const svg = `
         <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="***REMOVED***f8f9fa"/>
+            <rect width="100%" height="100%" fill="#f8f9fa"/>
             <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" 
-                  font-family="Arial, sans-serif" font-size="24" fill="***REMOVED***6c757d">
+                  font-family="Arial, sans-serif" font-size="24" fill="#6c757d">
                 ${initials}
             </text>
             <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" 
-                  font-family="Arial, sans-serif" font-size="12" fill="***REMOVED***6c757d">
+                  font-family="Arial, sans-serif" font-size="12" fill="#6c757d">
                 Imagen no disponible
             </text>
         </svg>
@@ -980,19 +980,19 @@ function checkout() {
                 animation: slideUp .3s ease;
             }
             .modal-header h2 { 
-                color: ***REMOVED***2e7d32; 
+                color: #2e7d32; 
                 display: flex; 
                 align-items: center; 
                 gap: 10px; 
                 margin-bottom: 20px;
             }
             .modal-header h2 i { 
-                color: ***REMOVED***ffb300;
+                color: #ffb300;
             }
             .order-summary, .impact-summary { 
                 margin: 20px 0; 
                 padding: 20px; 
-                background: ***REMOVED***f8f9fa; 
+                background: #f8f9fa; 
                 border-radius: 12px;
             }
             .summary-item { 
@@ -1003,7 +1003,7 @@ function checkout() {
             .summary-item.total { 
                 font-weight: bold; 
                 font-size: 1.1rem; 
-                border-top: 1px solid ***REMOVED***e9ecef; 
+                border-top: 1px solid #e9ecef; 
                 padding-top: 10px; 
                 margin-top: 10px;
             }
@@ -1021,17 +1021,17 @@ function checkout() {
             }
             .impact-item i { 
                 font-size: 24px; 
-                color: ***REMOVED***2e7d32; 
+                color: #2e7d32; 
                 margin-bottom: 5px;
             }
             .impact-item span { 
                 display: block; 
                 font-weight: bold; 
                 font-size: 1.2rem; 
-                color: ***REMOVED***005005;
+                color: #005005;
             }
             .impact-item small { 
-                color: ***REMOVED***666; 
+                color: #666; 
                 font-size: .8rem;
             }
             .eco-message { 
@@ -1055,27 +1055,27 @@ function checkout() {
             
             /* Modo oscuro para el modal */
             body.dark-mode .modal-content {
-                background: ***REMOVED***2d2d2d !important;
-                color: ***REMOVED***e5e5e5 !important;
+                background: #2d2d2d !important;
+                color: #e5e5e5 !important;
             }
             body.dark-mode .order-summary,
             body.dark-mode .impact-summary {
-                background: ***REMOVED***3d3d3d !important;
-                color: ***REMOVED***e5e5e5 !important;
+                background: #3d3d3d !important;
+                color: #e5e5e5 !important;
             }
             body.dark-mode .impact-item {
-                background: ***REMOVED***2d2d2d !important;
-                color: ***REMOVED***e5e5e5 !important;
+                background: #2d2d2d !important;
+                color: #e5e5e5 !important;
             }
             body.dark-mode .impact-item span {
-                color: ***REMOVED***ffb300 !important;
+                color: #ffb300 !important;
             }
             body.dark-mode .impact-item small {
-                color: ***REMOVED***b0b0b0 !important;
+                color: #b0b0b0 !important;
             }
             body.dark-mode .eco-message {
                 background: rgba(255, 179, 0, 0.1) !important;
-                color: ***REMOVED***e5e5e5 !important;
+                color: #e5e5e5 !important;
             }
         `;
         document.head.appendChild(style);
